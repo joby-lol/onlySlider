@@ -19,7 +19,8 @@ function onlySlider(obj,options) {
 		preload_forward:1,
 		preload_backward:0,
 		loop:true,
-		timer:3000
+		timer:3000,
+		fixedHeight:false
 	});
 	this.setOptions(options);
 	this.obj = obj;
@@ -29,21 +30,20 @@ function onlySlider(obj,options) {
 	if (this.obj.children.length == 1 && this.obj.children[0].tagName == "NOSCRIPT") {
 		var container = document.createElement('DIV');
 		container.innerHTML = this.obj.children[0].textContent||this.obj.children[0].innerHTML;
-		console.log('noscript found');
-		console.log(container.innerHTML);
 	}else {
 		var container = this.obj;
 	}
-	console.log(container);
 	for (var i = 0; i < container.children.length; i++) {
-		console.log('extracting child '+i);
-		this.slides.push(this.extractSlide(container.children[i]));
+		var slide = this.extractSlide(container.children[i]);
+		if (slide) {
+			this.slides.push(slide);
+		}
 	}
-	console.log(this.slides);
 	this.obj.innerHTML = "";
 	//add content container
 	this.contentContainer = document.createElement("DIV");
 	this.contentContainer.setAttribute("class","onlySlider-contentContainer");
+	var pe = this;
 	this.obj.appendChild(this.contentContainer);
 	//add nodes to content container
 	for (var i = 0; i < this.slides.length; i++) {
@@ -54,21 +54,42 @@ function onlySlider(obj,options) {
 	this.loadingMessage.setAttribute("class","onlySlider-loadingMessage onlySlider-loadingMessage-active");
 	this.obj.appendChild(this.loadingMessage);
 	//add controls
-	this.controls = document.createElement("DIV");
-	this.controls.setAttribute("class","onlySlider-controls");
-	this.obj.appendChild(this.controls);
+	this.dotControls = document.createElement("DIV");
+	this.dotControls.setAttribute("class","onlySlider-dotControls");
+	this.obj.appendChild(this.dotControls);
+	this.arrowControls = document.createElement("DIV");
+	this.arrowControls.setAttribute("class","onlySlider-arrowControls");
+	this.obj.appendChild(this.arrowControls);
+	this.arrowControls.prevArrow = document.createElement("A");
+	this.arrowControls.prevArrow.innerHTML = "previous";
+	this.arrowControls.prevArrow.setAttribute("class","onlySlider-arrowControl onlySlider-arrowControl-previous onlySlider-arrowControl-disabled");
+	this.arrowControls.appendChild(this.arrowControls.prevArrow);
+	this.arrowControls.nextArrow = document.createElement("A");
+	this.arrowControls.nextArrow.innerHTML = "next";
+	this.arrowControls.nextArrow.setAttribute("class","onlySlider-arrowControl onlySlider-arrowControl-next onlySlider-arrowControl-disabled");
+	this.arrowControls.appendChild(this.arrowControls.nextArrow);
+	//arrow event listeners
+	this.addEvent(this.arrowControls.prevArrow,'click',function(){pe.setSlide(pe.prevSlide(pe.currentSlide))});
+	this.addEvent(this.arrowControls.nextArrow,'click',function(){pe.setSlide(pe.nextSlide(pe.currentSlide))});
 	//start at slide 0
 	this.currentSlide = -1;
 	this.setSlide(0);
-	//debugging
-	console.log(this);
 }
 onlySlider.prototype.startTimer = function () {
 	if (this.options.timer > 0) {
+		this.stopTimer();
 		var pe = this;
 		this.timer = setTimeout(function(){
 			pe.setSlide(pe.nextSlide(pe.currentSlide));
+			clearTimeout(pe.timer);
+			pe.timer = false;
 		},this.options.timer);
+	}
+}
+onlySlider.prototype.stopTimer = function () {
+	if (this.timer) {
+		clearTimeout(this.timer);
+		this.timer = false;
 	}
 }
 onlySlider.prototype.extractSlide = function (obj) {
@@ -76,6 +97,9 @@ onlySlider.prototype.extractSlide = function (obj) {
 		var html = obj.textContent||obj.innerHTML;
 	}else {
 		var html = obj.outerHTML||new XMLSerializer().serializeToString(node);
+	}
+	if (!html || /^<\!--.*-->$/.test(html)) {
+		return false
 	}
 	return {
 		node:document.createElement("DIV"),
@@ -109,12 +133,60 @@ onlySlider.prototype.render = function () {
 			this.slides[i].node.setAttribute('class',slideClass);
 		}
 	}
-	//draw controls
+	//set arrow control styles
+	var nextSlide = this.nextSlide(this.currentSlide);
+	if (nextSlide == -1) {
+		this.arrowControls.nextArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-next onlySlider-arrowControl-disabled');
+	}else {
+		this.arrowControls.nextArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-next');
+	}
+	var prevSlide = this.prevSlide(this.currentSlide);
+	if (prevSlide == -1) {
+		this.arrowControls.prevArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-previous onlySlider-arrowControl-disabled');
+	}else {
+		this.arrowControls.prevArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-previous');
+	}
+	//draw dot controls
+	this.dotControls.innerHTML = "";
+	for (var i = 0; i < this.slides.length; i++) {
+		var dot = document.createElement("A");
+		dot.setAttribute('data-slideID',i);
+		dot.innerHTML = i+1;
+		//set dot's CSS class
+		var dotClass = "onlySlider-dot";
+		if (i == this.currentSlide) {
+			dotClass = "onlySlider-dot onlySlider-dot-current"
+		}else {
+			if (i == 0 && this.currentSlide == -1) {
+				dotClass = "onlySlider-dot onlySlider-dot-next onlySlider-dot-first";
+			}
+			if (i > this.currentSlide) {
+				dotClass += " onlySlider-dot-after onlySlider-dot-after-by-"+(i-this.currentSlide);
+			}
+			if (i < this.currentSlide) {
+				dotClass += " onlySlider-dot-before onlySlider-dot-before-by-"+(this.currentSlide-i);
+			}
+		}
+		dot.setAttribute('class',dotClass);
+		//set dot's event listener and append it
+		var pe = this;
+		this.addEvent(dot,'click',function(event){
+			if (this.getAttribute) {
+				pe.setSlide(this.getAttribute('data-slideID'));
+			}else {
+				pe.setSlide(event.srcElement.getAttribute('data-slideID'));
+			}
+		});
+		this.dotControls.appendChild(dot);
+	}
 }
 onlySlider.prototype.setSlide = function (slideNumber) {
-	this.render();
-	this.displaySlide(slideNumber);
-	this.preloadAround(slideNumber);
+	this.stopTimer();
+	if (slideNumber >= 0) {
+		this.render();
+		this.displaySlide(slideNumber);
+		this.preloadAround(slideNumber);
+	}
 }
 onlySlider.prototype.displaySlide = function (slideNumber) {
 	//preload slide
@@ -127,8 +199,12 @@ onlySlider.prototype.displaySlide = function (slideNumber) {
 			clearInterval(timer);
 			pe.loadingMessage.setAttribute('class','onlySlider-loadingMessage');
 			//set which slide is active, set height, and animate
+			if (pe.options.fixedHeight) {
+				pe.obj.style.height = pe.options.fixedHeight+'px';
+			}else {
+				pe.obj.style.height = slide.node.offsetHeight+'px';
+			}
 			pe.currentSlide = slideNumber;
-			pe.obj.style.height = slide.node.offsetHeight+'px';
 			pe.render();
 			//start timer
 			pe.startTimer();
@@ -139,11 +215,7 @@ onlySlider.prototype.displaySlide = function (slideNumber) {
 	var timer = setInterval(function(){display()},50);
 	display();
 }
-onlySlider.prototype.clearOldSlides = function () {
-
-}
 onlySlider.prototype.preloadSlide = function (slideNumber) {
-	console.log('preloading slide '+slideNumber);
 	var slide = this.slides[slideNumber];
 	if (!slide.loaded && !slide.loading) {
 		slide.node.innerHTML = slide.html;
@@ -164,8 +236,7 @@ onlySlider.prototype.preloadSlide = function (slideNumber) {
 				if (slide.preloadables[i].complete) {
 					slide.preloadsRemaining--;
 				}else {
-					slide.preloadables[i].addEventListener('load',function(){
-						console.log('preload element complete');
+					this.addEvent(slide.preloadables[i],'load',function(){
 						slide.preloadsRemaining--;
 					});
 				}
@@ -222,12 +293,22 @@ onlySlider.prototype.nextSlide = function (slideNumber) {
 onlySlider.prototype.prevSlide = function (slideNumber) {
 	var loop = this.options.loop;
 	slideNumber--;
-	if (slideNumber < 1) {
+	if (slideNumber < 0) {
 		slideNumber = loop?this.slides.length-1:-1;
 	}
 	return slideNumber;
 }
 
+/*
+	event listener compatibility polyfill
+*/
+onlySlider.prototype.addEvent = function (object,event,action) {
+	if (!object.addEventListener) {
+		return object.attachEvent("on"+event,action);
+	}else {
+		return object.addEventListener(event,action);
+	}
+}
 /*
 	options control, shouldn't need changing from one project to the next
 */
