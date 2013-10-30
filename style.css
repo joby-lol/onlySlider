@@ -1,9 +1,9 @@
-.onlyCarousel {
+.onlySlider {
 	position:relative;
 	transition:all 0.5s ease-in;
 	height:39px;
 }
-.onlyCarousel-contentContainer {
+.onlySlider-contentContainer {
 	position:absolute;
 	left:0;
 	top:0;
@@ -12,7 +12,7 @@
 	overflow:hidden;
 	background:#eee;
 }
-.onlyCarousel-slide {
+.onlySlider-slide {
 	position:absolute;
 	left:100%;
 	top:0;
@@ -22,32 +22,32 @@
 	text-align:center;
 	overflow:hidden;
 }
-.onlyCarousel-slide img {
+.onlySlider-slide img {
 	max-width:100%;
 	display:block;
 }
-.onlyCarousel-slide.onlyCarousel-slide-first,
-.onlyCarousel-slide.onlyCarousel-slide-current {
+.onlySlider-slide.onlySlider-slide-first,
+.onlySlider-slide.onlySlider-slide-current {
 	left:0;
 	z-index:100;
 }
-.onlyCarousel-slide.onlyCarousel-slide-after {
+.onlySlider-slide.onlySlider-slide-after {
 	left:100%;
 	display:none;
 }
-.onlyCarousel-slide.onlyCarousel-slide-before {
+.onlySlider-slide.onlySlider-slide-before {
 	left:-100%;
 	display:none;
 }
-.onlyCarousel-slide.onlyCarousel-slide-next {
+.onlySlider-slide.onlySlider-slide-next {
 	left:100%;
 	display:block;
 }
-.onlyCarousel-slide.onlyCarousel-slide-prev {
+.onlySlider-slide.onlySlider-slide-prev {
 	left:-100%;
 	display:block;
 }
-.onlyCarousel-slide.onlyCarousel-slide-first {
+.onlySlider-slide.onlySlider-slide-first {
 	left:0;
 	opacity:0;
 }
@@ -55,7 +55,7 @@
 /*
 Loading message (it's animated!)
 */
-@keyframes onlyCarousel-loading {
+@keyframes onlySlider-loading {
 	0% {
 		background:rgba(255,255,255,0.5);
 	}
@@ -65,7 +65,7 @@ Loading message (it's animated!)
 		-webkit-transform:rotatey(180deg);
 	}
 }
-@-webkit-keyframes onlyCarousel-loading {
+@-webkit-keyframes onlySlider-loading {
 	0% {
 		background:rgba(255,255,255,0.5);
 	}
@@ -75,7 +75,7 @@ Loading message (it's animated!)
 		-webkit-transform:rotatey(180deg);
 	}
 }
-.onlyCarousel-loadingMessage {
+.onlySlider-loadingMessage {
 	z-index:0;
 	position:relative;
 	opacity:0;
@@ -87,18 +87,18 @@ Loading message (it's animated!)
 	margin:0 auto;
 	top:10px;
 	transition:all 0.25s linear;
-	animation-name:onlyCarousel-loading;
+	animation-name:onlySlider-loading;
 	animation-iteration-count:infinite;
 	animation-duration:0.92s;
 	animation-direction:alternate;
 	animation-timing-function:linear;
-	-webkit-animation-name:onlyCarousel-loading;
+	-webkit-animation-name:onlySlider-loading;
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-duration:0.92s;
 	-webkit-animation-direction:alternate;
 	-webkit-animation-timing-function:linear;
 }
-.onlyCarousel-loadingMessage.onlyCarousel-loadingMessage-active {
+.onlySlider-loadingMessage.onlySlider-loadingMessage-active {
 	opacity:1;
 	z-index:100;
 }
