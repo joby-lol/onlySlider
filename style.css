@@ -1,9 +1,9 @@
-.peCarousel {
+.onlyCarousel {
 	position:relative;
 	transition:all 0.5s ease-in;
 	height:39px;
 }
-.peCarousel-contentContainer {
+.onlyCarousel-contentContainer {
 	position:absolute;
 	left:0;
 	top:0;
@@ -12,7 +12,7 @@
 	overflow:hidden;
 	background:#eee;
 }
-.peCarousel-slide {
+.onlyCarousel-slide {
 	position:absolute;
 	left:100%;
 	top:0;
@@ -22,32 +22,32 @@
 	text-align:center;
 	overflow:hidden;
 }
-.peCarousel-slide img {
+.onlyCarousel-slide img {
 	max-width:100%;
 	display:block;
 }
-.peCarousel-slide.peCarousel-slide-first,
-.peCarousel-slide.peCarousel-slide-current {
+.onlyCarousel-slide.onlyCarousel-slide-first,
+.onlyCarousel-slide.onlyCarousel-slide-current {
 	left:0;
 	z-index:100;
 }
-.peCarousel-slide.peCarousel-slide-after {
+.onlyCarousel-slide.onlyCarousel-slide-after {
 	left:100%;
 	display:none;
 }
-.peCarousel-slide.peCarousel-slide-before {
+.onlyCarousel-slide.onlyCarousel-slide-before {
 	left:-100%;
 	display:none;
 }
-.peCarousel-slide.peCarousel-slide-next {
+.onlyCarousel-slide.onlyCarousel-slide-next {
 	left:100%;
 	display:block;
 }
-.peCarousel-slide.peCarousel-slide-prev {
+.onlyCarousel-slide.onlyCarousel-slide-prev {
 	left:-100%;
 	display:block;
 }
-.peCarousel-slide.peCarousel-slide-first {
+.onlyCarousel-slide.onlyCarousel-slide-first {
 	left:0;
 	opacity:0;
 }
@@ -55,7 +55,7 @@
 /*
 Loading message (it's animated!)
 */
-@keyframes peCarousel-loading {
+@keyframes onlyCarousel-loading {
 	0% {
 		background:rgba(255,255,255,0.5);
 	}
@@ -65,7 +65,7 @@ Loading message (it's animated!)
 		-webkit-transform:rotatey(180deg);
 	}
 }
-@-webkit-keyframes peCarousel-loading {
+@-webkit-keyframes onlyCarousel-loading {
 	0% {
 		background:rgba(255,255,255,0.5);
 	}
@@ -75,7 +75,7 @@ Loading message (it's animated!)
 		-webkit-transform:rotatey(180deg);
 	}
 }
-.peCarousel-loadingMessage {
+.onlyCarousel-loadingMessage {
 	z-index:0;
 	position:relative;
 	opacity:0;
@@ -87,18 +87,18 @@ Loading message (it's animated!)
 	margin:0 auto;
 	top:10px;
 	transition:all 0.25s linear;
-	animation-name:peCarousel-loading;
+	animation-name:onlyCarousel-loading;
 	animation-iteration-count:infinite;
 	animation-duration:0.92s;
 	animation-direction:alternate;
 	animation-timing-function:linear;
-	-webkit-animation-name:peCarousel-loading;
+	-webkit-animation-name:onlyCarousel-loading;
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-duration:0.92s;
 	-webkit-animation-direction:alternate;
 	-webkit-animation-timing-function:linear;
 }
-.peCarousel-loadingMessage.peCarousel-loadingMessage-active {
+.onlyCarousel-loadingMessage.onlyCarousel-loadingMessage-active {
 	opacity:1;
 	z-index:100;
 }

@@ -1,7 +1,7 @@
 /** @license
-* peCarousel - MIT License
+* onlyCarousel - MIT License
 * Copyright (c) 2013 Joby Elliott
-* http://go.byjoby.net/peCarousel
+* http://go.byjoby.net/onlyCarousel
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
 * all copies or substantial portions of the Software.
 */
 
-function peCarousel(obj,options) {
+function onlyCarousel(obj,options) {
 	this.setDefaults({
 		preload_forward:1,
 		preload_backward:0,
@@ -23,7 +23,7 @@ function peCarousel(obj,options) {
 	});
 	this.setOptions(options);
 	this.obj = obj;
-	this.obj.setAttribute("class","peCarousel");
+	this.obj.setAttribute("class","onlyCarousel");
 	//load slides
 	this.slides = [];
 	if (this.obj.children.length == 1 && this.obj.children[0].tagName == "NOSCRIPT") {
@@ -43,7 +43,7 @@ function peCarousel(obj,options) {
 	this.obj.innerHTML = "";
 	//add content container
 	this.contentContainer = document.createElement("DIV");
-	this.contentContainer.setAttribute("class","peCarousel-contentContainer");
+	this.contentContainer.setAttribute("class","onlyCarousel-contentContainer");
 	this.obj.appendChild(this.contentContainer);
 	//add nodes to content container
 	for (var i = 0; i < this.slides.length; i++) {
@@ -51,11 +51,11 @@ function peCarousel(obj,options) {
 	}
 	//add loading message
 	this.loadingMessage = document.createElement("DIV");
-	this.loadingMessage.setAttribute("class","peCarousel-loadingMessage peCarousel-loadingMessage-active");
+	this.loadingMessage.setAttribute("class","onlyCarousel-loadingMessage onlyCarousel-loadingMessage-active");
 	this.obj.appendChild(this.loadingMessage);
 	//add controls
 	this.controls = document.createElement("DIV");
-	this.controls.setAttribute("class","peCarousel-controls");
+	this.controls.setAttribute("class","onlyCarousel-controls");
 	this.obj.appendChild(this.controls);
 	//start at slide 0
 	this.currentSlide = -1;
@@ -63,7 +63,7 @@ function peCarousel(obj,options) {
 	//debugging
 	console.log(this);
 }
-peCarousel.prototype.startTimer = function () {
+onlyCarousel.prototype.startTimer = function () {
 	if (this.options.timer > 0) {
 		var pe = this;
 		this.timer = setTimeout(function(){
@@ -71,7 +71,7 @@ peCarousel.prototype.startTimer = function () {
 		},this.options.timer);
 	}
 }
-peCarousel.prototype.extractSlide = function (obj) {
+onlyCarousel.prototype.extractSlide = function (obj) {
 	if (obj.tagName == "NOSCRIPT") {
 		var html = obj.textContent||obj.innerHTML;
 	}else {
@@ -82,28 +82,28 @@ peCarousel.prototype.extractSlide = function (obj) {
 		html:html
 	};
 }
-peCarousel.prototype.render = function () {
+onlyCarousel.prototype.render = function () {
 	//set appropriate slide classes
 	for (var i = 0; i < this.slides.length; i++) {
 		if (this.slides[i].node) {
-			var slideClass = "peCarousel-slide";
+			var slideClass = "onlyCarousel-slide";
 			if (i == this.currentSlide) {
-				slideClass = "peCarousel-slide peCarousel-slide-current"
+				slideClass = "onlyCarousel-slide onlyCarousel-slide-current"
 			}else {
 				if (i == this.prevSlide(this.currentSlide)) {
-					slideClass = "peCarousel-slide peCarousel-slide-prev";
+					slideClass = "onlyCarousel-slide onlyCarousel-slide-prev";
 				}
 				if (i == this.nextSlide(this.currentSlide)) {
-					slideClass = "peCarousel-slide peCarousel-slide-next";
+					slideClass = "onlyCarousel-slide onlyCarousel-slide-next";
 				}
 				if (i == 0 && this.currentSlide == -1) {
-					slideClass = "peCarousel-slide peCarousel-slide-next peCarousel-slide-first";
+					slideClass = "onlyCarousel-slide onlyCarousel-slide-next onlyCarousel-slide-first";
 				}
 				if (i > this.currentSlide) {
-					slideClass += " peCarousel-slide-after peCarousel-slide-after-by-"+(i-this.currentSlide);
+					slideClass += " onlyCarousel-slide-after onlyCarousel-slide-after-by-"+(i-this.currentSlide);
 				}
 				if (i < this.currentSlide) {
-					slideClass += " peCarousel-slide-before peCarousel-slide-before-by-"+(this.currentSlide-i);
+					slideClass += " onlyCarousel-slide-before onlyCarousel-slide-before-by-"+(this.currentSlide-i);
 				}
 			}
 			this.slides[i].node.setAttribute('class',slideClass);
@@ -111,12 +111,12 @@ peCarousel.prototype.render = function () {
 	}
 	//draw controls
 }
-peCarousel.prototype.setSlide = function (slideNumber) {
+onlyCarousel.prototype.setSlide = function (slideNumber) {
 	this.render();
 	this.displaySlide(slideNumber);
 	this.preloadAround(slideNumber);
 }
-peCarousel.prototype.displaySlide = function (slideNumber) {
+onlyCarousel.prototype.displaySlide = function (slideNumber) {
 	//preload slide
 	this.preloadSlide(slideNumber);
 	//display slide once it is loaded
@@ -125,7 +125,7 @@ peCarousel.prototype.displaySlide = function (slideNumber) {
 	var display = function(){
 		if (slide.loaded) {
 			clearInterval(timer);
-			pe.loadingMessage.setAttribute('class','peCarousel-loadingMessage');
+			pe.loadingMessage.setAttribute('class','onlyCarousel-loadingMessage');
 			//set which slide is active, set height, and animate
 			pe.currentSlide = slideNumber;
 			pe.obj.style.height = slide.node.offsetHeight+'px';
@@ -133,16 +133,16 @@ peCarousel.prototype.displaySlide = function (slideNumber) {
 			//start timer
 			pe.startTimer();
 		}else {
-			pe.loadingMessage.setAttribute('class','peCarousel-loadingMessage peCarousel-loadingMessage-active');
+			pe.loadingMessage.setAttribute('class','onlyCarousel-loadingMessage onlyCarousel-loadingMessage-active');
 		}
 	}
 	var timer = setInterval(function(){display()},50);
 	display();
 }
-peCarousel.prototype.clearOldSlides = function () {
+onlyCarousel.prototype.clearOldSlides = function () {
 
 }
-peCarousel.prototype.preloadSlide = function (slideNumber) {
+onlyCarousel.prototype.preloadSlide = function (slideNumber) {
 	console.log('preloading slide '+slideNumber);
 	var slide = this.slides[slideNumber];
 	if (!slide.loaded && !slide.loading) {
@@ -182,7 +182,7 @@ peCarousel.prototype.preloadSlide = function (slideNumber) {
 		}
 	}
 }
-peCarousel.prototype.getElementsByTagName = function (obj,tagName) {
+onlyCarousel.prototype.getElementsByTagName = function (obj,tagName) {
 	var n = obj.getElementsByTagName(tagName);
 	if (!n) {
 		return [];
@@ -193,7 +193,7 @@ peCarousel.prototype.getElementsByTagName = function (obj,tagName) {
 	}
 	return r;
 }
-peCarousel.prototype.preloadAround = function (slideNumber) {
+onlyCarousel.prototype.preloadAround = function (slideNumber) {
 	//preload forward
 	var slideToPreload = slideNumber;
 	for (var i = 0; i < this.options.preload_forward; i++) {
@@ -211,7 +211,7 @@ peCarousel.prototype.preloadAround = function (slideNumber) {
 		}
 	}
 }
-peCarousel.prototype.nextSlide = function (slideNumber) {
+onlyCarousel.prototype.nextSlide = function (slideNumber) {
 	var loop = this.options.loop;
 	slideNumber++;
 	if (slideNumber >= this.slides.length) {
@@ -219,7 +219,7 @@ peCarousel.prototype.nextSlide = function (slideNumber) {
 	}
 	return slideNumber;
 }
-peCarousel.prototype.prevSlide = function (slideNumber) {
+onlyCarousel.prototype.prevSlide = function (slideNumber) {
 	var loop = this.options.loop;
 	slideNumber--;
 	if (slideNumber < 1) {
@@ -231,7 +231,7 @@ peCarousel.prototype.prevSlide = function (slideNumber) {
 /*
 	options control, shouldn't need changing from one project to the next
 */
-peCarousel.prototype.setOptions = function (options) {
+onlyCarousel.prototype.setOptions = function (options) {
 	this.options = this.options?this.options:{};
 	if (typeof(options) == 'object') {
 		for (var prop in options) {
@@ -241,7 +241,7 @@ peCarousel.prototype.setOptions = function (options) {
 		}
 	}
 }
-peCarousel.prototype.setDefaults = function (options) {
+onlyCarousel.prototype.setDefaults = function (options) {
 	this.options = this.options?this.options:{};
 	if (typeof(options) == 'object') {
 		for (var prop in options) {
@@ -255,7 +255,7 @@ peCarousel.prototype.setDefaults = function (options) {
 	Note to self, don't debounce in prototype methods, objects need their
 	own debounced methods set up during construction
 */
-peCarousel.prototype.debounce = function (func, threshold, execAsap) {
+onlyCarousel.prototype.debounce = function (func, threshold, execAsap) {
 	var timeout;
 	return function debounced () {
 		var obj = this;

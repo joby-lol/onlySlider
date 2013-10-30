@@ -1,19 +1,19 @@
 <!doctype HTML>
 <html>
 <head>
-	<script src="peCarousel.js"></script>
+	<script src="onlyCarousel.js"></script>
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	<h1>peCarousel</h1>
-	<p><a href="LICENSE.md">MIT License</a>, <a href="https://github.com/jobyone/peCarousel">download on GitHub</a></p>
+	<h1>onlyCarousel</h1>
+	<p><a href="LICENSE.md">MIT License</a>, <a href="https://github.com/jobyone/onlyCarousel">download on GitHub</a></p>
 	<div id="democarousel" style="max-width:450px;margin:0 auto;">
 		<!-- a plain IMG tag will become a slide, but its source will begin loading IMMEDIATELY, whether the slide has been reached or not -->
 		<img src="http://img.youtube.com/vi/lX6JcybgDFo/hqdefault.jpg" />
 		<!-- you can use a DIV too, any element will work -->
 		<div>
 			Text works too<br/>
-			This next image may judder a little bit as it slides in. That's not the fault of peCarousel, it's just that it's a 5 megabyte image and moving it taxes your poor browser.
+			This next image may judder a little bit as it slides in. That's not the fault of onlyCarousel, it's just that it's a 5 megabyte image and moving it taxes your poor browser.
 		</div>
 		<!-- wrapping big images in a NOSCRIPT is wise, as it keeps them from being preloaded by the browser -->
 		<noscript>
@@ -31,7 +31,7 @@
 	</div>
 	<script>
 		var ob = document.getElementById("democarousel");
-		p = new peCarousel(ob);
+		p = new onlyCarousel(ob);
 	</script>
 </body>
 </html>
