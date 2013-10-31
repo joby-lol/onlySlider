@@ -72,22 +72,29 @@ function onlySlider(obj,options) {
 	this.addEvent(this.arrowControls.prevArrow,'click',function(){pe.setSlide(pe.prevSlide(pe.currentSlide))});
 	this.addEvent(this.arrowControls.nextArrow,'click',function(){pe.setSlide(pe.nextSlide(pe.currentSlide))});
 	//start at slide 0
+	this.timer = false;
 	this.currentSlide = -1;
 	this.setSlide(0);
 }
 onlySlider.prototype.startTimer = function () {
 	if (this.options.timer > 0) {
-		this.stopTimer();
+		//console.log('starting timer');
+		if (this.timer) {
+			//console.log('timer already exists ('+this.timer+')');
+			this.stopTimer();
+		}
 		var pe = this;
 		this.timer = setTimeout(function(){
+			//console.log('timer ended');
+			pe.stopTimer();
 			pe.setSlide(pe.nextSlide(pe.currentSlide));
-			clearTimeout(pe.timer);
-			pe.timer = false;
 		},this.options.timer);
+		//console.log('timer set ('+this.timer+')');
 	}
 }
 onlySlider.prototype.stopTimer = function () {
 	if (this.timer) {
+		//console.log('clearing '+this.timer);
 		clearTimeout(this.timer);
 		this.timer = false;
 	}
@@ -181,7 +188,6 @@ onlySlider.prototype.render = function () {
 	}
 }
 onlySlider.prototype.setSlide = function (slideNumber) {
-	this.stopTimer();
 	if (slideNumber >= 0) {
 		this.render();
 		this.displaySlide(slideNumber);
