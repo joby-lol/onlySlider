@@ -1,6 +1,6 @@
 .onlySlider {
 	position:relative;
-	transition:all 0.5s ease-in;
+	transition:all 0.25s ease-in;
 	height:39px;
 }
 .onlySlider-contentContainer {
@@ -18,8 +18,8 @@
 	left:100%;
 	top:0;
 	width:100%;
-	transition:all 0.5s ease-in-out;
-	transition-delay:0.5s;
+	transition:all 0.65s linear;
+	transition-delay:0.25s;
 	text-align:center;
 	overflow:hidden;
 	background:#fff;
@@ -32,16 +32,12 @@
 .onlySlider-slide.onlySlider-slide-current {
 	left:0;
 	z-index:10;
-	transition:all 0.4s ease-in-out;
-	transition-delay:0.5s;
 }
 .onlySlider-slide.onlySlider-slide-after {
 	left:100%;
-	opacity:0;
 }
 .onlySlider-slide.onlySlider-slide-before {
 	left:-100%;
-	opacity:0;
 }
 .onlySlider-slide.onlySlider-slide-next {
 	left:100%;
