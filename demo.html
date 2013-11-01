@@ -1,37 +1,12 @@
 <!doctype HTML>
 <html>
 <head>
+	<link rel="stylesheet" id="demoStyle" href="styles/basic.css" />
 	<script src="onlySlider.js"></script>
-	<link rel="stylesheet" href="onlySlider.css" />
+	<title>onlySlider by jobyone</title>
 </head>
 <body style="background:#fafafa;">
-	<h1>onlySlider</h1>
-	<p><a href="LICENSE.md">MIT License</a>, <a href="https://github.com/jobyone/onlySlider">download on GitHub</a></p>
-	<div id="democarousel" style="max-width:450px;margin:0 auto;">
-		<!-- a plain IMG tag will become a slide, but its source will begin loading IMMEDIATELY, whether the slide has been reached or not -->
-		<img src="http://img.youtube.com/vi/lX6JcybgDFo/hqdefault.jpg" />
-		<!-- you can use a DIV too, any element will work -->
-		<div>
-			Text works too<br/>
-			This next image may judder a little bit as it slides in. That's not the fault of onlySlider, it's just that it's a 5 megabyte image and moving it taxes your poor browser.
-		</div>
-		<!-- wrapping big images in a NOSCRIPT is wise, as it keeps them from being preloaded by the browser -->
-		<noscript>
-			<img src="http://upload.wikimedia.org/wikipedia/commons/0/0f/Grosser_Panda.JPG" />
-		</noscript>
-		<noscript>
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Burg_Stiegelesfels_28%2C_Donautal.JPG/800px-Burg_Stiegelesfels_28%2C_Donautal.JPG" />
-		</noscript>
-		<noscript>
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Arbre_de_Diane_07.jpg/800px-Arbre_de_Diane_07.jpg" />
-		</noscript>
-		<noscript>
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/V%C3%B6lklinger_H%C3%BCtte_108.JPG/799px-V%C3%B6lklinger_H%C3%BCtte_108.JPG" />
-		</noscript>
-	</div>
-	<script>
-		var ob = document.getElementById("democarousel");
-		p = new onlySlider(ob);
-	</script>
-</body>
+	<h1 style="text-align:center;"><img src="images/header-logo.png" alt="onlySlider" /></h1>
+	<h2 style="text-align:center;">A carousel that does precisely what it needs to<br/>(and not one iota more)</h2>
+	<p><a href="LICENSE.md">MIT License</a>, <a href="https://github.com/jobyone/onlySlider">find on GitHub</a></p>
 </html>
