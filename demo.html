@@ -18,7 +18,7 @@
 	<p>If you would like to be sufficiently amazed, remember that all of these styles are just that: <em>styles.</em> Nothing about the Javascript changes when you switch skins, it's just swapping the stylesheets of the exact same script.</p>
 	<p id="demoStylePicker">
 		<a href="skins/basic.css" class="active">Basic</a>
-		<a href="skins/fruity3d.css" class="">Fruity 3D</a>
+		<a href="skins/flow.css" class="">Flow</a>
 		<a href="skins/filmstrip.css" class="">Filmstrip</a>
 	</p>
 
@@ -51,6 +51,15 @@
 		<noscript>
 			<img src="demo-images/demo10.jpg" />
 		</noscript>
+		<noscript>
+			<img src="demo-images/demo8.jpg" />
+		</noscript>
+		<noscript>
+			<img src="demo-images/demo9.jpg" />
+		</noscript>
+		<noscript>
+			<img src="demo-images/demo10.jpg" />
+		</noscript>
 	</div>
 	<link rel="stylesheet" id="demoStyle" href="" />
 	<script>
@@ -72,6 +81,9 @@
 			};
 		}
 		//start slider
-		var ds = new onlySlider(document.getElementById("demoSlider"));
+		var ds = new onlySlider(document.getElementById("demoSlider"),{
+			preload_forward:5,
+			preload_backward:5,
+		});
 	</script>
 </html>
