@@ -1,0 +1,28 @@
+.onlySlider {
+	position:relative;
+	transition:all 0.25s ease-in;
+	height:39px;
+}
+.onlySlider-contentContainer {
+	position:absolute;
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	overflow:hidden;
+	background-color:#ccc;
+	background-color:rgba(200,200,200,0.9);
+}
+.onlySlider-slide {
+	position:absolute;
+	border:25px solid black;
+	transition:all 0.65s linear;
+	transition-delay:0.25s;
+	text-align:center;
+	overflow:hidden;
+	background:#fff;
+	width:50%;
+}
+.onlySlider-slide img {
+	max-width:100%;
+}
