@@ -1,14 +1,26 @@
 <!doctype HTML>
 <html>
 <head>
-	<link rel="stylesheet" id="demoStyle" href="stylesheets/basic.css" />
+	<link rel="stylesheet" href="skins/basic.css" type="text/css" id="stylesheet" />
 	<script src="onlySlider.js"></script>
 	<title>onlySlider by jobyone</title>
+	<style>
+		#demoStylePicker a {display:inline-block;padding:10px;background:#ccc;}
+		#demoStylePicker a.active {background:#fff;}
+	</style>
 </head>
 <body style="background:#fafafa;text-align:center;">
 	<h1 style="text-align:center;"><img src="demo-images/header-logo.png" alt="onlySlider" /></h1>
 	<h2 style="text-align:center;">A carousel that does precisely what it needs to<br/>(and not one iota more)</h2>
 	<p><a href="LICENSE.md">MIT License</a>, <a href="https://github.com/jobyone/onlySlider">find on GitHub</a></p>
+
+	<h3>Try different styles</h3>
+	<p>If you would like to be sufficiently amazed, remember that all of these styles are just that: <em>styles.</em> Nothing about the Javascript changes when you switch skins, it's just swapping the stylesheets of the exact same script.</p>
+	<p id="demoStylePicker">
+		<a href="skins/basic.css" class="active">Basic</a>
+		<a href="skins/fruity3d.css" class="">Fruity 3D</a>
+		<a href="skins/filmstrip.css" class="">Filmstrip</a>
+	</p>
 
 	<div id="demoSlider" style="max-width:800px;margin:0 auto;">
 		<img src="demo-images/demo1.jpg" />
@@ -40,7 +52,26 @@
 			<img src="demo-images/demo10.jpg" />
 		</noscript>
 	</div>
+	<link rel="stylesheet" id="demoStyle" href="" />
 	<script>
-	var ds = new onlySlider(document.getElementById("demoSlider"));
+		//set up style picker
+		var setCSSFile = function(link){
+			document.getElementById('stylesheet').href = link;
+		}
+		var sp = document.getElementById("demoStylePicker");
+		li = sp.getElementsByTagName("a");
+		for (var i = 0; i < li.length; i++) {
+			var link = li[i].getAttribute('href');
+			li[i].onclick = function(){
+				setCSSFile(this.getAttribute('href'));
+				for (var j = 0; j < li.length; j++) {
+					li[j].setAttribute('class','');
+				}
+				this.setAttribute('class','active');
+				return false;
+			};
+		}
+		//start slider
+		var ds = new onlySlider(document.getElementById("demoSlider"));
 	</script>
 </html>
