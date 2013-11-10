@@ -19,7 +19,7 @@ function onlySlider(obj,options) {
 		preload_forward:1,
 		preload_backward:0,
 		loop:true,
-		timer:3000,
+		timer:5000,
 		fixedHeight:false
 	});
 	this.setOptions(options);
