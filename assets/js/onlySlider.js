@@ -60,13 +60,14 @@ function onlySlider(obj,options) {
 	this.arrowControls = document.createElement("DIV");
 	this.arrowControls.setAttribute("class","onlySlider-arrowControls");
 	this.obj.appendChild(this.arrowControls);
+	var arrowControlClass = "onlySlider-arrowControl";
 	this.arrowControls.prevArrow = document.createElement("A");
 	this.arrowControls.prevArrow.innerHTML = "previous";
-	this.arrowControls.prevArrow.setAttribute("class","onlySlider-arrowControl onlySlider-arrowControl-previous onlySlider-arrowControl-disabled");
+	this.arrowControls.prevArrow.setAttribute("class",arrowControlClass+" "+arrowControlClass+"-previous "+arrowControlClass+"-disabled");
 	this.arrowControls.appendChild(this.arrowControls.prevArrow);
 	this.arrowControls.nextArrow = document.createElement("A");
 	this.arrowControls.nextArrow.innerHTML = "next";
-	this.arrowControls.nextArrow.setAttribute("class","onlySlider-arrowControl onlySlider-arrowControl-next onlySlider-arrowControl-disabled");
+	this.arrowControls.nextArrow.setAttribute("class",arrowControlClass+" "+arrowControlClass+"-next "+arrowControlClass+"-disabled");
 	this.arrowControls.appendChild(this.arrowControls.nextArrow);
 	//arrow event listeners
 	this.addEvent(this.arrowControls.prevArrow,'click',function(){pe.setSlide(pe.prevSlide(pe.currentSlide))});
@@ -117,41 +118,41 @@ onlySlider.prototype.render = function () {
 	//set appropriate slide classes
 	for (var i = 0; i < this.slides.length; i++) {
 		if (this.slides[i].node) {
-			var slideClass = "onlySlider-slide";
+			var slideClassName = "onlySlider-slide";
+			var slideClass = [slideClassName];
 			if (i == this.currentSlide) {
-				slideClass = "onlySlider-slide onlySlider-slide-current"
+				slideClass.push(slideClassName+"-current");
 			}else {
-				if (i == this.prevSlide(this.currentSlide)) {
-					slideClass = "onlySlider-slide onlySlider-slide-prev";
-				}
-				if (i == this.nextSlide(this.currentSlide)) {
-					slideClass = "onlySlider-slide onlySlider-slide-next";
-				}
 				if (i == 0 && this.currentSlide == -1) {
-					slideClass = "onlySlider-slide onlySlider-slide-next onlySlider-slide-first";
+					slideClass.push(slideClassName+"-next "+slideClassName+"-first");
+				}else if (i == this.prevSlide(this.currentSlide)) {
+					slideClass.push(slideClassName+"-prev");
+				}else if (i == this.nextSlide(this.currentSlide)) {
+					slideClass.push(slideClassName+"-next");
 				}
 				if (i > this.currentSlide) {
-					slideClass += " onlySlider-slide-after onlySlider-slide-after-by-"+(i-this.currentSlide);
+					slideClass.push(slideClassName+"-after "+slideClassName+"-after-by-"+(i-this.currentSlide));
 				}
 				if (i < this.currentSlide) {
-					slideClass += " onlySlider-slide-before onlySlider-slide-before-by-"+(this.currentSlide-i);
+					slideClass.push(slideClassName+"-before "+slideClassName+"-before-by-"+(this.currentSlide-i));
 				}
 			}
-			this.slides[i].node.setAttribute('class',slideClass);
+			this.slides[i].node.setAttribute('class',slideClass.join(" "));
 		}
 	}
 	//set arrow control styles
+	var arrowControlClass = "onlySlider-arrowControl";
 	var nextSlide = this.nextSlide(this.currentSlide);
 	if (nextSlide == -1) {
-		this.arrowControls.nextArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-next onlySlider-arrowControl-disabled');
+		this.arrowControls.nextArrow.setAttribute('class',''+arrowControlClass+' '+arrowControlClass+'-next '+arrowControlClass+'-disabled');
 	}else {
-		this.arrowControls.nextArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-next');
+		this.arrowControls.nextArrow.setAttribute('class',''+arrowControlClass+' '+arrowControlClass+'-next');
 	}
 	var prevSlide = this.prevSlide(this.currentSlide);
 	if (prevSlide == -1) {
-		this.arrowControls.prevArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-previous onlySlider-arrowControl-disabled');
+		this.arrowControls.prevArrow.setAttribute('class',''+arrowControlClass+' '+arrowControlClass+'-previous '+arrowControlClass+'-disabled');
 	}else {
-		this.arrowControls.prevArrow.setAttribute('class','onlySlider-arrowControl onlySlider-arrowControl-previous');
+		this.arrowControls.prevArrow.setAttribute('class',''+arrowControlClass+' '+arrowControlClass+'-previous');
 	}
 	//draw dot controls
 	this.dotControls.innerHTML = "";
@@ -160,21 +161,20 @@ onlySlider.prototype.render = function () {
 		dot.setAttribute('data-slideID',i);
 		dot.innerHTML = i+1;
 		//set dot's CSS class
-		var dotClass = "onlySlider-dot";
+		var dotClassName = "onlySlider-dot";
+		var dotClass = [dotClassName];
 		if (i == this.currentSlide) {
-			dotClass = "onlySlider-dot onlySlider-dot-current"
+			dotClass.push(dotClassName+"-current");
 		}else {
 			if (i == 0 && this.currentSlide == -1) {
-				dotClass = "onlySlider-dot onlySlider-dot-next onlySlider-dot-first";
-			}
-			if (i > this.currentSlide) {
-				dotClass += " onlySlider-dot-after onlySlider-dot-after-by-"+(i-this.currentSlide);
-			}
-			if (i < this.currentSlide) {
-				dotClass += " onlySlider-dot-before onlySlider-dot-before-by-"+(this.currentSlide-i);
+				dotClass.push(dotClassName+"-next "+dotClassName+"-first");
+			}else if (i > this.currentSlide) {
+				dotClass.push(dotClassName+"-after "+dotClassName+"-after-by-"+(i-this.currentSlide));
+			}else if (i < this.currentSlide) {
+				dotClass.push(dotClassName+"-before "+dotClassName+"-before-by-"+(this.currentSlide-i));
 			}
 		}
-		dot.setAttribute('class',dotClass);
+		dot.setAttribute('class',dotClass.join(' '));
 		//set dot's event listener and append it
 		var pe = this;
 		this.addEvent(dot,'click',function(event){
@@ -198,12 +198,13 @@ onlySlider.prototype.displaySlide = function (slideNumber) {
 	//preload slide
 	this.preloadSlide(slideNumber);
 	//display slide once it is loaded
+	var loadingMessageClassName = "onlySlider-loadingMessage";
 	var slide = this.slides[slideNumber];
 	var pe = this;
 	var display = function(){
 		if (slide.loaded) {
 			clearInterval(timer);
-			pe.loadingMessage.setAttribute('class','onlySlider-loadingMessage');
+			pe.loadingMessage.setAttribute('class',loadingMessageClassName);
 			//set which slide is active, set height, and animate
 			if (pe.options.fixedHeight) {
 				pe.obj.style.height = pe.options.fixedHeight+'px';
@@ -215,7 +216,7 @@ onlySlider.prototype.displaySlide = function (slideNumber) {
 			//start timer
 			pe.startTimer();
 		}else {
-			pe.loadingMessage.setAttribute('class','onlySlider-loadingMessage onlySlider-loadingMessage-active');
+			pe.loadingMessage.setAttribute('class',loadingMessageClassName+' '+loadingMessageClassName+'-active');
 		}
 	}
 	var timer = setInterval(function(){display()},50);
@@ -227,13 +228,14 @@ onlySlider.prototype.preloadSlide = function (slideNumber) {
 		slide.node.innerHTML = slide.html;
 		slide.loading = true;
 		//find preloadables
-		slide.preloadables = [];
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"IMG"));
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"SCRIPT"));
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"IFRAME"));
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"LINK"));
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"SCRIPT"));
-		slide.preloadables = slide.preloadables.concat(this.getElementsByTagName(slide.node,"STYLE"));
+		var preloadables = [];
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"IMG"));
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"SCRIPT"));
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"IFRAME"));
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"LINK"));
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"SCRIPT"));
+		preloadables = preloadables.concat(this.getElementsByTagName(slide.node,"STYLE"));
+		slide.preloadables = preloadables;
 		//set up listeners to wait for everything to load
 		//only if there are things to preload
 		if (slide.preloadables.length > 0) {
