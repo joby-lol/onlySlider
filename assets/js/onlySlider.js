@@ -16,7 +16,7 @@
 
 function onlySlider(obj,options) {
 	this.setDefaults({
-		preload_forward:1,
+		preload_forward:0,
 		preload_backward:0,
 		loop:true,
 		timer:5000,
