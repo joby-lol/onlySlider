@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			js: {
-				files:['assets/js/onlySlider.js'],
+				files:['source/js/onlySlider.js'],
 				tasks:['uglify']
 			}
 		},
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: {
-					'onlySlider.min.js':['assets/js/onlySlider.js']
+					'onlySlider.min.js':['source/js/onlySlider.js']
 				}
 			}
 		}
